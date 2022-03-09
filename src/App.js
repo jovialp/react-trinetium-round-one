@@ -6,12 +6,16 @@ export default function App() {
   const [name, setName] = useState('');
 
   const addNameToList = (name) => {
-    console.log('addNameToList');
     const currentNameList = [...nameList];
-    const newNameList = currentNameList.push(name);
-    console.log(newNameList);
-    // setNameList(newNameList);
-    // setName("");
+    currentNameList.push(name);
+    setNameList(currentNameList);
+    setName('');
+  };
+
+  const deleteName = (index) => {
+    const currentNameList = [...nameList];
+    currentNameList.splice(index, 1);
+    setNameList(currentNameList);
   };
 
   return (
@@ -19,9 +23,9 @@ export default function App() {
       <input
         name="name"
         onChange={(e) => {
-          console.log(e.target.value);
           setName(e.target.value);
         }}
+        value={name}
       />
       <button
         onClick={() => {
@@ -32,8 +36,19 @@ export default function App() {
       </button>
       <div>
         {nameList &&
-          nameList.map((username) => {
-            return <div>{username}</div>;
+          nameList.map((username, i) => {
+            return (
+              <div key={i}>
+                {username}
+                <button
+                  onClick={() => {
+                    deleteName(i);
+                  }}
+                >
+                  Delete
+                </button>
+              </div>
+            );
           })}
       </div>
     </div>
